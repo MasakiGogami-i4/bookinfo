@@ -1,0 +1,56 @@
+name: Build and Deploy Bookinfo to AKS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-bookinfo:
+    runs-on: ubuntu-24.04-arm
+    strategy:
+      matrix:
+        platform:
+          - linux/arm64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u "${{ secrets.GHCR_USERNAME }}" --password-stdin
+
+      - name: Compile, build and push Docker image
+        run: |
+          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh
+          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh --load
+          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh --push
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Get AKS kubeconfig
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ secrets.AKS_RESOURCE_GROUP }} \
+            --name ${{ secrets.AKS_CLUSTER_NAME }} \
+            --overwrite-existing
+
+      - name: Create GHCR pull secret in Kubernetes
+        run: |
+          kubectl create ns bookinfo || true
+          kubectl create secret docker-registry ghcr-secret \
+            --docker-server=ghcr.io \
+            --docker-username=${{ secrets.GHCR_USERNAME }} \
+            --docker-password=${{ secrets.GHCR_TOKEN }} \
+            --docker-email=${{ secrets.GHCR_EMAIL }} \
+            -n kong --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f platform/kube/bookinfo.yaml
