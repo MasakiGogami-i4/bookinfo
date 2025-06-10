@@ -129,7 +129,7 @@ target "default" {
     item = images
   }
   name    = item.name
-  context = "src/${item.source}"
+  context = "${item.source}"
   tags    = [
     for x in setproduct([HUB], "${split(",", TAGS)}") : join("/${item.name}:", x)
   ]
