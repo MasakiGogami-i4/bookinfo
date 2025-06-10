@@ -29,21 +29,21 @@
 ##################################################################################################
 # Details service
 ##################################################################################################
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
-metadata:
-  name: bookinfo-ingress
-  namespace: bookinfo
-spec:
-  virtualhost:
-    fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
-  routes:
-    - conditions:
-        - prefix: /details
-      services:
-        - name: details
-          port: 9080
----
+# apiVersion: projectcontour.io/v1
+# kind: HTTPProxy
+# metadata:
+#   name: bookinfo-ingress
+#   namespace: bookinfo
+# spec:
+#   virtualhost:
+#     fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
+#   routes:
+#     - conditions:
+#         - prefix: /details
+#       services:
+#         - name: details
+#           port: 9080
+# ---
 apiVersion: v1
 kind: Service
 metadata:
@@ -95,21 +95,21 @@ spec:
 ##################################################################################################
 # Ratings service
 ##################################################################################################
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
-metadata:
-  name: bookinfo-ingress
-  namespace: bookinfo
-spec:
-  virtualhost:
-    fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
-  routes:
-    - conditions:
-        - prefix: /ratings
-      services:
-        - name: ratings
-          port: 9080
----
+# apiVersion: projectcontour.io/v1
+# kind: HTTPProxy
+# metadata:
+#   name: bookinfo-ingress
+#   namespace: bookinfo
+# spec:
+#   virtualhost:
+#     fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
+#   routes:
+#     - conditions:
+#         - prefix: /ratings
+#       services:
+#         - name: ratings
+#           port: 9080
+# ---
 apiVersion: v1
 kind: Service
 metadata:
@@ -161,21 +161,21 @@ spec:
 ##################################################################################################
 # Reviews service
 ##################################################################################################
-apiVersion: projectcontour.io/v1
-kind: HTTPProxy
-metadata:
-  name: bookinfo-ingress
-  namespace: bookinfo
-spec:
-  virtualhost:
-    fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
-  routes:
-    - conditions:
-        - prefix: /reviews
-      services:
-        - name: reviews
-          port: 9080
----
+# apiVersion: projectcontour.io/v1
+# kind: HTTPProxy
+# metadata:
+#   name: bookinfo-ingress
+#   namespace: bookinfo
+# spec:
+#   virtualhost:
+#     fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
+#   routes:
+#     - conditions:
+#         - prefix: /reviews
+#       services:
+#         - name: reviews
+#           port: 9080
+# ---
 apiVersion: v1
 kind: Service
 metadata:
@@ -320,6 +320,21 @@ spec:
 ##################################################################################################
 # Productpage services
 ##################################################################################################
+# apiVersion: projectcontour.io/v1
+# kind: HTTPProxy
+# metadata:
+#   name: bookinfo-ingress
+#   namespace: bookinfo
+# spec:
+#   virtualhost:
+#     fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
+#   routes:
+#     - conditions:
+#         - prefix: /productpage
+#       services:
+#         - name: productpage
+#           port: 9080
+# ---
 apiVersion: projectcontour.io/v1
 kind: HTTPProxy
 metadata:
@@ -327,10 +342,10 @@ metadata:
   namespace: bookinfo
 spec:
   virtualhost:
-    fqdn: 104.211.112.210.nip.io  # または独自ドメイン。IP直打ちテスト時は nip.io が便利
+    fqdn: 104.211.112.210.nip.io
   routes:
     - conditions:
-        - prefix: /productpage
+        - prefix: /
       services:
         - name: productpage
           port: 9080
