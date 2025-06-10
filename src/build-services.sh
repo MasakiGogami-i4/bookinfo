@@ -34,7 +34,6 @@ if [[ "${BOOKINFO_LATEST}" == "true" ]]; then
 fi
 
 # Pass input args to the command. This allows using --push, --load, etc
-cd "./src/"
 env TAGS="${BOOKINFO_TAG}" HUB="${BOOKINFO_HUB}" \
   docker buildx bake -f "docker-bake.hcl" "$@"
 
