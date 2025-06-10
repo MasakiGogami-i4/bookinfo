@@ -37,7 +37,14 @@ import sys
 import http.client as http_client
 http_client.HTTPConnection.debuglevel = 0
 
-app = Flask(__name__)
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+app = Flask(
+    __name__,
+    static_url_path='/static',
+    static_folder=os.path.join(APP_ROOT, 'static'),
+    template_folder=os.path.join(APP_ROOT, 'templates')
+)
 FlaskInstrumentor().instrument_app(app)
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 requests_log = logging.getLogger("requests.packages.urllib3")
