@@ -25,9 +25,9 @@ jobs:
 
       - name: Compile, build and push Docker image
         run: |
-          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh
-          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh --load
-          BOOKINFO_TAG="${{ vars.$BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.$GHCR_NAME }}" src/build-services.sh --push
+          BOOKINFO_TAG="${{ vars.BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.GHCR_NAME }}" src/build-services.sh
+          BOOKINFO_TAG="${{ vars.BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.GHCR_NAME }}" src/build-services.sh --load
+          BOOKINFO_TAG="${{ vars.BOOKINFO_VER }}" BOOKINFO_HUB="${{ vars.GHCR_NAME }}" src/build-services.sh --push
 
       - name: Azure login
         uses: azure/login@v1
