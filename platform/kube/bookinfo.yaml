@@ -342,7 +342,7 @@ metadata:
   namespace: bookinfo
 spec:
   virtualhost:
-    fqdn: 104.211.112.210.nip.io
+    fqdn: productpage.104.211.112.210.nip.io
   routes:
     - conditions:
         - prefix: /
@@ -404,6 +404,21 @@ spec:
         volumeMounts:
         - name: tmp
           mountPath: /tmp
+        env:
+        - name: SERVICES_DOMAIN
+          value: "kong.svc"
+        - name: DETAILS_HOSTNAME
+          value: "my-kong-kong-proxy"
+        - name: DETAILS_SERVICE_PORT
+          value: "80/details"
+        - name: RATINGS_HOSTNAME
+          value: "my-kong-kong-proxy"
+        - name: RATINGS_SERVICE_PORT
+          value: "80/ratings"
+        - name: REVIEWS_HOSTNAME
+          value: "my-kong-kong-proxy"
+        - name: REVIEWS_SERVICE_PORT
+          value: "80/reviews"
       volumes:
       - name: tmp
         emptyDir: {}
